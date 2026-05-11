@@ -82,14 +82,14 @@
                 id: 5,
                 lat: 34.2000,
                 lng: -118.3500,
-                clue: "Last stop — head to the aviation landmark with historic planes and folded wings memorial.",
+                clue: "Last stop — head to the aviation landmark with historic planes.",
                 question: "🎉 You made it to the final spot!"
             }
         ];
 
         let currentStage = 0;
         let watchId = null;
-        const proximityRadius = 60; // meters (a bit forgiving)
+        const proximityRadius = 60;
 
         function haversineDistance(lat1, lon1, lat2, lon2) {
             const R = 6371000;
@@ -107,8 +107,8 @@
             const distance = haversineDistance(playerLat, playerLng, target.lat, target.lng);
             
             document.getElementById("status").innerHTML = distance <= proximityRadius 
-                ? `✅ You're at the spot! New clue unlocked.` 
-                : `📍 ${Math.round(distance)} meters away from next spot.`;
+                ? `✅ You're at the spot!` 
+                : `📍 ${Math.round(distance)} meters away.`;
             
             if (distance <= proximityRadius) showNextQuestion();
         }
@@ -119,7 +119,7 @@
             document.getElementById("clueTitle").textContent = `Spot ${currentStage} / ${locations.length}`;
             document.getElementById("clueText").innerHTML = `
                 <strong>You made it!</strong><br><br>
-                ${target.question || ""}<br><br>
+                ${target.question}<br><br>
                 <em>Next clue:</em> ${locations[currentStage] ? locations[currentStage].clue : "<strong>🎉 Congratulations! You completed the Burbank Scavenger Hunt!</strong>"}
             `;
             document.getElementById("nextBtn").style.display = locations[currentStage] ? "block" : "none";
@@ -138,8 +138,8 @@
 
             if (navigator.geolocation) {
                 watchId = navigator.geolocation.watchPosition(checkLocation, 
-                    () => document.getElementById("status").textContent = "⚠️ Please enable location access in your browser",
-                    { enableHighAccuracy: true, maximumAge: 10000 }
+                    () => document.getElementById("status").textContent = "⚠️ Please enable location access",
+                    { enableHighAccuracy: true }
                 );
             }
         }
