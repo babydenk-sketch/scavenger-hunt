@@ -1,155 +1,115 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2575.7">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>City Scavenger Hunt</title>
+    <style>
+        body { 
+            font-family: system-ui, sans-serif; 
+            margin: 0; 
+            padding: 20px; 
+            background: #f0f4f8; 
+            color: #222; 
+            text-align: center; 
+        }
+        h1 { color: #1a73e8; }
+        .stage { 
+            background: white; 
+            border-radius: 16px; 
+            padding: 25px; 
+            margin: 20px auto; 
+            max-width: 600px; 
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1); 
+        }
+        button { 
+            background: #1a73e8; 
+            color: white; 
+            border: none; 
+            padding: 15px 30px; 
+            font-size: 18px; 
+            border-radius: 50px; 
+            cursor: pointer; 
+            margin: 10px; 
+        }
+        button:hover { background: #0d5fd1; }
+        #status { font-weight: bold; margin: 15px 0; color: #333; }
+    </style>
 </head>
 <body>
-<p class="p1">&lt;!DOCTYPE html&gt;</p>
-<p class="p1">&lt;html lang="en"&gt;</p>
-<p class="p1">&lt;head&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;title&gt;City Scavenger Hunt&lt;/title&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;style&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>body { font-family: system-ui; margin: 0; padding: 20px; background: #f0f4f8; color: #222; text-align: center; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>h1 { color: #1a73e8; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.stage { background: white; border-radius: 16px; padding: 25px; margin: 20px auto; max-width: 600px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>button { background: #1a73e8; color: white; border: none; padding: 15px 30px; font-size: 18px; border-radius: 50px; cursor: pointer; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>button:hover { background: #0d5fd1; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>#status { font-weight: bold; margin: 15px 0; }</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</p>
-<p class="p1">&lt;/head&gt;</p>
-<p class="p1">&lt;body&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;h1&gt;🗺️ My Scavenger Hunt&lt;/h1&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="game" class="stage"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;h2 id="clueTitle"&gt;Starting the Hunt...&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;p id="clueText"&gt;Welcome! Tap "Start" to get your first clue.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;button onclick="startHunt()"&gt;Start Hunt&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="nextBtn" style="display:none;"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;button onclick="navigateToNext()"&gt;Open Google Maps Directions&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;p id="status"&gt;&lt;/p&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;script&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>// === CUSTOMIZE HERE ===</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const locations = [</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{</p>
-<p class="p1"><span class="Apple-converted-space">                </span>id: 1,</p>
-<p class="p1"><span class="Apple-converted-space">                </span>lat: 40.7128,<span class="Apple-converted-space">      </span>// Example: Statue of Liberty area</p>
-<p class="p1"><span class="Apple-converted-space">                </span>lng: -74.0060,</p>
-<p class="p1"><span class="Apple-converted-space">                </span>clue: "Find the famous green lady standing tall in the harbor. What is her full official name?",</p>
-<p class="p1"><span class="Apple-converted-space">                </span>question: "You've arrived! Answer: What year was she dedicated?",</p>
-<p class="p1"><span class="Apple-converted-space">                </span>answerHint: "1886"<span class="Apple-converted-space">  </span>// Optional - you can check answer manually or remove</p>
-<p class="p1"><span class="Apple-converted-space">            </span>},</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{</p>
-<p class="p1"><span class="Apple-converted-space">                </span>id: 2,</p>
-<p class="p1"><span class="Apple-converted-space">                </span>lat: 40.7484,</p>
-<p class="p1"><span class="Apple-converted-space">                </span>lng: -73.9857, <span class="Apple-converted-space">    </span>// Empire State Building</p>
-<p class="p1"><span class="Apple-converted-space">                </span>clue: "Head to the building that was once the tallest in the world. Look for the iconic spire!",</p>
-<p class="p1"><span class="Apple-converted-space">                </span>question: "Great job! Now tell me: How many floors does this building have?"</p>
-<p class="p1"><span class="Apple-converted-space">            </span>},</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{</p>
-<p class="p1"><span class="Apple-converted-space">                </span>id: 3,</p>
-<p class="p1"><span class="Apple-converted-space">                </span>lat: 40.7580,</p>
-<p class="p1"><span class="Apple-converted-space">                </span>lng: -73.9855, <span class="Apple-converted-space">    </span>// Times Square</p>
-<p class="p1"><span class="Apple-converted-space">                </span>clue: "Go to the place where the bright lights never sleep. Find the red steps!",</p>
-<p class="p1"><span class="Apple-converted-space">                </span>question: "You're there! What is the name of the famous square you're standing in?"</p>
-<p class="p1"><span class="Apple-converted-space">            </span>},</p>
-<p class="p1"><span class="Apple-converted-space">            </span>// Add more locations here (copy-paste the format)</p>
-<p class="p1"><span class="Apple-converted-space">        </span>];</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>let currentStage = 0;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>let watchId = null;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const proximityRadius = 50; // meters</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>function haversineDistance(lat1, lon1, lat2, lon2) {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const R = 6371000; // Earth radius in meters</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const dLat = (lat2 - lat1) * Math.PI / 180;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const dLon = (lon2 - lon1) * Math.PI / 180;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const a = Math.sin(dLat/2) * Math.sin(dLat/2) +</p>
-<p class="p1"><span class="Apple-converted-space">                      </span>Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *</p>
-<p class="p1"><span class="Apple-converted-space">                      </span>Math.sin(dLon/2) * Math.sin(dLon/2);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));</p>
-<p class="p1"><span class="Apple-converted-space">            </span>return R * c;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>function checkLocation(position) {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const playerLat = position.coords.latitude;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const playerLng = position.coords.longitude;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const target = locations[currentStage];</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">            </span>const distance = haversineDistance(playerLat, playerLng, target.lat, target.lng);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const statusEl = document.getElementById("status");</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">            </span>if (distance &lt;= proximityRadius) {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>statusEl.innerHTML = `✅ You're at the spot! New question unlocked.`;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>showNextQuestion();</p>
-<p class="p1"><span class="Apple-converted-space">            </span>} else {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>statusEl.innerHTML = `📍 ${Math.round(distance)} meters away from next spot. Keep going!`;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>function showNextQuestion() {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>currentStage++;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const target = locations[currentStage - 1]; // just arrived at this one</p>
-<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById("clueTitle").textContent = `Question ${currentStage}`;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById("clueText").innerHTML = `</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;strong&gt;You made it!&lt;/strong&gt;&lt;br&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>${target.question || "Next clue coming..."}&lt;br&gt;&lt;br&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;em&gt;Clue for next spot:&lt;/em&gt; ${locations[currentStage] ? locations[currentStage].clue : "&lt;strong&gt;🎉 You finished the hunt!&lt;/strong&gt;"}</p>
-<p class="p1"><span class="Apple-converted-space">            </span>`;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById("nextBtn").style.display = locations[currentStage] ? "block" : "none";</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">            </span>if (!locations[currentStage]) {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>// Final screen</p>
-<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById("clueText").innerHTML += `&lt;br&gt;&lt;br&gt;🏆 Congratulations! You completed the scavenger hunt!`;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>function navigateToNext() {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>if (currentStage &gt;= locations.length) return;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const next = locations[currentStage];</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const url = `https://www.google.com/maps/dir/?api=1&amp;destination=${next.lat},${next.lng}&amp;travelmode=walking`;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>window.open(url, "_blank");</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>function startHunt() {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>if (currentStage === 0) {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>currentStage = 0;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById("clueTitle").textContent = "First Clue";</p>
-<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById("clueText").innerHTML = `</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>${locations[0].clue}&lt;br&gt;&lt;br&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;em&gt;Tap the button below once you're close to get directions.&lt;/em&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>`;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById("nextBtn").style.display = "block";</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">                </span>// Start watching GPS</p>
-<p class="p1"><span class="Apple-converted-space">                </span>if (navigator.geolocation) {</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>watchId = navigator.geolocation.watchPosition(checkLocation,<span class="Apple-converted-space"> </span></p>
-<p class="p1"><span class="Apple-converted-space">                        </span>() =&gt; document.getElementById("status").textContent = "⚠️ Enable location in your browser settings",</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>{ enableHighAccuracy: true, maximumAge: 10000 }</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>);</p>
-<p class="p1"><span class="Apple-converted-space">                </span>} else {</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>alert("Your browser doesn't support GPS location.");</p>
-<p class="p1"><span class="Apple-converted-space">                </span>}</p>
-<p class="p1"><span class="Apple-converted-space">            </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>// Optional: stop GPS when page closes</p>
-<p class="p1"><span class="Apple-converted-space">        </span>window.onbeforeunload = () =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>if (watchId) navigator.geolocation.clearWatch(watchId);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>};</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/script&gt;</p>
-<p class="p1">&lt;/body&gt;</p>
-<p class="p1">&lt;/html&gt;</p>
+    <h1>🗺️ City Scavenger Hunt</h1>
+    <div id="game" class="stage">
+        <h2 id="clueTitle">Starting the Hunt...</h2>
+        <p id="clueText">Welcome! Tap "Start" to get your first clue.</p>
+        <button onclick="startHunt()">Start Hunt</button>
+        <div id="nextBtn" style="display:none;">
+            <button onclick="navigateToNext()">Open Google Maps Directions</button>
+        </div>
+    </div>
+    <p id="status"></p>
+
+    <script>
+        // === CUSTOMIZE HERE ===
+        const locations = [
+            { id: 1, lat: 40.7128, lng: -74.0060, clue: "Find the famous green lady standing tall in the harbor.", question: "You've arrived! What year was she dedicated?" },
+            { id: 2, lat: 40.7484, lng: -73.9857, clue: "Head to the building that was once the tallest in the world.", question: "Great job! How many floors does this building have?" },
+            { id: 3, lat: 40.7580, lng: -73.9855, clue: "Go to the place where the bright lights never sleep.", question: "You're there! What is the name of this famous square?" }
+        ];
+
+        let currentStage = 0;
+        let watchId = null;
+        const proximityRadius = 50;
+
+        function haversineDistance(lat1, lon1, lat2, lon2) {
+            const R = 6371000;
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLon = (lon2 - lon1) * Math.PI / 180;
+            const a = Math.sin(dLat/2)**2 + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLon/2)**2;
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            return R * c;
+        }
+
+        function checkLocation(position) {
+            const playerLat = position.coords.latitude;
+            const playerLng = position.coords.longitude;
+            const target = locations[currentStage];
+            const distance = haversineDistance(playerLat, playerLng, target.lat, target.lng);
+            document.getElementById("status").innerHTML = distance <= proximityRadius 
+                ? `✅ You're at the spot!` 
+                : `📍 ${Math.round(distance)} meters away. Keep going!`;
+            if (distance <= proximityRadius) showNextQuestion();
+        }
+
+        function showNextQuestion() {
+            currentStage++;
+            const target = locations[currentStage - 1];
+            document.getElementById("clueTitle").textContent = `Spot ${currentStage}`;
+            document.getElementById("clueText").innerHTML = `
+                <strong>You made it!</strong><br><br>
+                ${target.question}<br><br>
+                <em>Next clue:</em> ${locations[currentStage] ? locations[currentStage].clue : "<strong>🎉 You finished the hunt!</strong>"}
+            `;
+            document.getElementById("nextBtn").style.display = locations[currentStage] ? "block" : "none";
+        }
+
+        function navigateToNext() {
+            if (currentStage >= locations.length) return;
+            const next = locations[currentStage];
+            window.open(`https://www.google.com/maps/dir/?api=1&destination=${next.lat},${next.lng}&travelmode=walking`, "_blank");
+        }
+
+        function startHunt() {
+            document.getElementById("clueTitle").textContent = "First Clue";
+            document.getElementById("clueText").innerHTML = locations[0].clue + "<br><br><em>Tap the button below for directions.</em>";
+            document.getElementById("nextBtn").style.display = "block";
+
+            if (navigator.geolocation) {
+                watchId = navigator.geolocation.watchPosition(checkLocation, 
+                    () => document.getElementById("status").textContent = "⚠️ Please allow location access",
+                    { enableHighAccuracy: true }
+                );
+            }
+        }
+    </script>
 </body>
 </html>
