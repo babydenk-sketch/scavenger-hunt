@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>City Scavenger Hunt</title>
+    <title>Burbank Scavenger Hunt</title>
     <style>
         body { 
             font-family: system-ui, sans-serif; 
@@ -37,10 +37,10 @@
     </style>
 </head>
 <body>
-    <h1>🗺️ City Scavenger Hunt</h1>
+    <h1>🗺️ Burbank Scavenger Hunt</h1>
     <div id="game" class="stage">
         <h2 id="clueTitle">Starting the Hunt...</h2>
-        <p id="clueText">Welcome! Tap "Start" to get your first clue.</p>
+        <p id="clueText">Welcome to Burbank! Tap "Start" to get your first clue.</p>
         <button onclick="startHunt()">Start Hunt</button>
         <div id="nextBtn" style="display:none;">
             <button onclick="navigateToNext()">Open Google Maps Directions</button>
@@ -49,16 +49,47 @@
     <p id="status"></p>
 
     <script>
-        // === CUSTOMIZE HERE ===
         const locations = [
-            { id: 1, lat: 40.7128, lng: -74.0060, clue: "Find the famous green lady standing tall in the harbor.", question: "You've arrived! What year was she dedicated?" },
-            { id: 2, lat: 40.7484, lng: -73.9857, clue: "Head to the building that was once the tallest in the world.", question: "Great job! How many floors does this building have?" },
-            { id: 3, lat: 40.7580, lng: -73.9855, clue: "Go to the place where the bright lights never sleep.", question: "You're there! What is the name of this famous square?" }
+            {
+                id: 1,
+                lat: 34.18194,
+                lng: -118.30750,
+                clue: "Start at the heart of the city — the beautiful Burbank City Hall with its iconic architecture.",
+                question: "You've arrived! What year was this City Hall built?"
+            },
+            {
+                id: 2,
+                lat: 34.14889,
+                lng: -118.33750,
+                clue: "Head toward the famous movie studio with the big 'WB' logo. Look for the iconic water tower!",
+                question: "Great job! What famous studio are you at?"
+            },
+            {
+                id: 3,
+                lat: 34.1675,
+                lng: -118.3400,
+                clue: "Go to the charming shopping street full of vintage shops, cafes, and that classic Burbank vibe.",
+                question: "You're there! What's the name of this popular shopping area?"
+            },
+            {
+                id: 4,
+                lat: 34.1800,
+                lng: -118.3200,
+                clue: "Find the peaceful green space with walking paths and great views of the hills.",
+                question: "Nice work! What's the name of this park?"
+            },
+            {
+                id: 5,
+                lat: 34.2000,
+                lng: -118.3500,
+                clue: "Last stop — head to the aviation landmark with historic planes and folded wings memorial.",
+                question: "🎉 You made it to the final spot!"
+            }
         ];
 
         let currentStage = 0;
         let watchId = null;
-        const proximityRadius = 50;
+        const proximityRadius = 60; // meters (a bit forgiving)
 
         function haversineDistance(lat1, lon1, lat2, lon2) {
             const R = 6371000;
@@ -74,20 +105,22 @@
             const playerLng = position.coords.longitude;
             const target = locations[currentStage];
             const distance = haversineDistance(playerLat, playerLng, target.lat, target.lng);
+            
             document.getElementById("status").innerHTML = distance <= proximityRadius 
-                ? `✅ You're at the spot!` 
-                : `📍 ${Math.round(distance)} meters away. Keep going!`;
+                ? `✅ You're at the spot! New clue unlocked.` 
+                : `📍 ${Math.round(distance)} meters away from next spot.`;
+            
             if (distance <= proximityRadius) showNextQuestion();
         }
 
         function showNextQuestion() {
             currentStage++;
             const target = locations[currentStage - 1];
-            document.getElementById("clueTitle").textContent = `Spot ${currentStage}`;
+            document.getElementById("clueTitle").textContent = `Spot ${currentStage} / ${locations.length}`;
             document.getElementById("clueText").innerHTML = `
                 <strong>You made it!</strong><br><br>
-                ${target.question}<br><br>
-                <em>Next clue:</em> ${locations[currentStage] ? locations[currentStage].clue : "<strong>🎉 You finished the hunt!</strong>"}
+                ${target.question || ""}<br><br>
+                <em>Next clue:</em> ${locations[currentStage] ? locations[currentStage].clue : "<strong>🎉 Congratulations! You completed the Burbank Scavenger Hunt!</strong>"}
             `;
             document.getElementById("nextBtn").style.display = locations[currentStage] ? "block" : "none";
         }
@@ -100,13 +133,13 @@
 
         function startHunt() {
             document.getElementById("clueTitle").textContent = "First Clue";
-            document.getElementById("clueText").innerHTML = locations[0].clue + "<br><br><em>Tap the button below for directions.</em>";
+            document.getElementById("clueText").innerHTML = locations[0].clue + "<br><br><em>Tap below for directions when ready.</em>";
             document.getElementById("nextBtn").style.display = "block";
 
             if (navigator.geolocation) {
                 watchId = navigator.geolocation.watchPosition(checkLocation, 
-                    () => document.getElementById("status").textContent = "⚠️ Please allow location access",
-                    { enableHighAccuracy: true }
+                    () => document.getElementById("status").textContent = "⚠️ Please enable location access in your browser",
+                    { enableHighAccuracy: true, maximumAge: 10000 }
                 );
             }
         }
